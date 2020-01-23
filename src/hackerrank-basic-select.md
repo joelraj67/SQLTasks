@@ -105,7 +105,34 @@ When ordered alphabetically, the CITY names are listed as ABC, DEF, PQRS, and WX
 	UNION  
 	SELECT * FROM (SELECT DISTINCT city, LENGTH(city) FROM station ORDER BY LENGTH(city) DESC, city ASC) WHERE ROWNUM = 1;  
   
+  OR
   
+   
+  SELECT
+    city,
+    LENGTH(city)
+FROM STATION
+WHERE city = (
+    SELECT
+        MIN(city)
+    FROM STATION
+    WHERE LENGTH(city) = (
+        SELECT
+            MIN(LENGTH(city))
+        FROM STATION
+    )
+)
+OR city = (
+    SELECT
+        MIN(city)
+    FROM STATION
+    WHERE LENGTH(city) = (
+        SELECT
+            MAX(LENGTH(city))
+        FROM STATION
+    )
+);
+
   
 # Weather Observation Station 6  
   
